@@ -1,0 +1,130 @@
+
+{
+  "name": "student_performance_etl_pipeline",
+  "email_notifications": {
+    "no_alert_for_skipped_runs": false
+  },
+  "webhook_notifications": {},
+  "timeout_seconds": 0,
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "task_key": "setup",
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<YOUR_EMAIL>/student-performance-big-data/00_setup",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "bronze_ingestion",
+      "depends_on": [
+        {
+          "task_key": "setup"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<YOUR_EMAIL>/student-performance-big-data/01_bronze",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "data_quality",
+      "depends_on": [
+        {
+          "task_key": "bronze_ingestion"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<YOUR_EMAIL>/student-performance-big-data/02_data_quality",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "silver_transformation",
+      "depends_on": [
+        {
+          "task_key": "data_quality"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<YOUR_EMAIL>/student-performance-big-data/03_silver",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "gold_model",
+      "depends_on": [
+        {
+          "task_key": "silver_transformation"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<YOUR_EMAIL>/student-performance-big-data/04_gold_model",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "gold_aggregations",
+      "depends_on": [
+        {
+          "task_key": "gold_model"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<YOUR_EMAIL>/student-performance-big-data/05_gold_aggregations",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    },
+    {
+      "task_key": "pipeline_validation",
+      "depends_on": [
+        {
+          "task_key": "gold_aggregations"
+        }
+      ],
+      "run_if": "ALL_SUCCESS",
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/<YOUR_EMAIL>/student-performance-big-data/06_pipeline_validation",
+        "source": "WORKSPACE"
+      },
+      "timeout_seconds": 0,
+      "email_notifications": {},
+      "webhook_notifications": {},
+      "disabled": false
+    }
+  ],
+  "queue": {
+    "enabled": true
+  },
+  "performance_target": "PERFORMANCE_OPTIMIZED"
+}
