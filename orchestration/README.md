@@ -59,3 +59,23 @@ if the source data becomes regularly updated.
 4. Set the task dependencies as described above.
 5. Adjust notebook paths to match the target workspace.
 6. Run the job and verify the validation results.
+
+
+## Job Configuration File
+
+The `job_config.json` file contains the exported
+Databricks Lakeflow Job configuration.
+
+Before deploying the job:
+
+- Replace `<YOUR_EMAIL>` with your Databricks account email.
+- Adjust notebook paths to match your workspace structure.
+- Verify that all seven notebooks are available.
+- Ensure that the required catalog and compute resources
+  are accessible.
+
+The configuration uses manual triggering, sequential
+task dependencies and performance-optimized execution.
+
+Personal workspace paths have been anonymized
+for portability and privacy.
